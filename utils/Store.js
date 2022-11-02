@@ -1,32 +1,21 @@
+import Cookies from "js-cookie"
 import { createContext, useReducer } from "react"
 export const Store = createContext()
 const initialState = {
-  cart: { cartItems: [] }
+  darkMode: Cookies.get("darkMode") === "ON" ? true : false
 }
 function reducer(state, action) {
   switch (action.type) {
-    case "CART_ADD_ITEM": {
-      const newItem = action.payload
-      const existItem = state.cart.cartItems.find(
-        (item) => item.slug === newItem.slug
-      )
-      const cartItems = existItem
-        ? state.cart.cartItems.map((item) => item.name === existItem)
-        : [...state.cart.cartItems, newItem]
-      return {
-        ...state,
-        cart: {
-          ...state.cart,
-          cartItems
-        }
-      }
-    }
+    case "DARK_MODE_ON":
+      return { ...state, darkMode: true }
+    case "DARK_MODE_OFF":
+      return { ...state, darkMode: false }
     default:
       state
   }
 }
-export function StoreProvider({ children }) {
+export function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const value = { state, dispatch }
-  return <Store.Provider value={value}>{children}</Store.Provider>
+  return <Store.Provider value={value}>{props.children}</Store.Provider>
 }

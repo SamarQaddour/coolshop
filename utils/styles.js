@@ -22,6 +22,10 @@ const useStyles = makeStyles({
   section: {
     marginTop: 10,
     marginBottom: 10
+  },
+  grow: {
+    marginLeft: 1000,
+    alignItems: "center"
   }
 })
 export default useStyles
